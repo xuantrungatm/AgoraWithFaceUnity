@@ -8,7 +8,7 @@ target 'AgoraDemo' do
   # Pods for AgoraDemo
 
    pod 'AGMCapturer_iOS','~> 2.0.1'
-   pod 'AgoraRtcEngine_iOS','~> 3.7.0'
+   pod 'AgoraRtcEngine_iOS','~> 3.7.2'
    pod 'Masonry','~> 1.1.0'
    pod 'FURenderKit', '~> 8.3.0'
 

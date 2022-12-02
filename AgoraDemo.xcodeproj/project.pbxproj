@@ -742,6 +742,8 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Access the camera.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Access the microphone.\n";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -778,6 +780,8 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Access the camera.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Access the microphone.\n";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

@@ -1,5 +1,5 @@
 //
-//  FUDemoManager.h
+//  FUContainerManager.h
 //  FUDemo
 //
 //  Created by 项林平 on 2021/6/17.
@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param controller 目标控制器
 /// @param originY Demo视图在目标视图上的Y坐标（这里指的是底部功能选择栏的Y坐标，X坐标默认为0）
 - (instancetype)initWithTargetController:(UIViewController *)controller originY:(CGFloat)originY;
+
+- (void)selectFilter;
+- (void)selectBeauty;
+- (void)onClickResetFilter:(void (^)(void))blockHandler;
+- (void)resetFilter;
 
 @end
 
