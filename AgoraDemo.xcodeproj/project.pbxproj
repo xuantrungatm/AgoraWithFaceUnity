@@ -64,6 +64,7 @@
 		6B6ACFE229386B340003839E /* xueqiu_lm_fu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B6ACFB029386B340003839E /* xueqiu_lm_fu.bundle */; };
 		6B6ACFE329386B340003839E /* DaisyPig.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B6ACFB129386B340003839E /* DaisyPig.bundle */; };
 		6B6ACFE429386B340003839E /* FUManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6ACFB229386B340003839E /* FUManager.m */; };
+		6B6ACFE7293DE2CD0003839E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6ACFE6293DE2CD0003839E /* UserInfo.swift */; };
 		BC18D262E6E42525BFCB77DE /* Pods_AgoraDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBFF7553177B9BF0F56FBA2C /* Pods_AgoraDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -161,6 +162,7 @@
 		6B6ACFB129386B340003839E /* DaisyPig.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = DaisyPig.bundle; sourceTree = "<group>"; };
 		6B6ACFB229386B340003839E /* FUManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FUManager.m; sourceTree = "<group>"; };
 		6B6ACFB329386B340003839E /* authpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = authpack.h; sourceTree = "<group>"; };
+		6B6ACFE6293DE2CD0003839E /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		81B1D3C6F16E2121EE1E6DCD /* Pods-AgoraDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraDemo.debug.xcconfig"; path = "Target Support Files/Pods-AgoraDemo/Pods-AgoraDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		EBFF7553177B9BF0F56FBA2C /* Pods_AgoraDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AgoraDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -217,6 +219,7 @@
 				6B6A71632937417A0003839E /* LaunchScreen.storyboard */,
 				6B6A71662937417A0003839E /* Info.plist */,
 				6B6A716C29376C600003839E /* AgoraDemo-Bridging-Header.h */,
+				6B6ACFE6293DE2CD0003839E /* UserInfo.swift */,
 			);
 			path = AgoraDemo;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				6B6ACFC329386B340003839E /* FUMakeupModel.m in Sources */,
 				6B6ACFB629386B340003839E /* FUBeautyShapeViewModel.m in Sources */,
 				6B6ACFC829386B340003839E /* FUSegmentBar.m in Sources */,
+				6B6ACFE7293DE2CD0003839E /* UserInfo.swift in Sources */,
 				6B6ACFCA29386B340003839E /* FUBeautyFunctionView.m in Sources */,
 				6B6ACFB729386B340003839E /* FUStickerViewModel.m in Sources */,
 				6B6ACFCB29386B340003839E /* FUTipHUD.m in Sources */,

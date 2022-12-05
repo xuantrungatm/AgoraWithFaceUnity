@@ -15,19 +15,13 @@ class ViewController: UIViewController {
     var localView: UIView!
     var remoteView: UIView!
     var joinButton: UIButton!
-    
-    // Choose to be broadcaster or audience
-    var role: UISegmentedControl!
-    var joined: Bool = false
-    
-    // The main entry point for Video SDK
-    var agoraEngine: AgoraRtcEngineKit!
-    // By default, set the current user role to broadcaster to both send and receive streams.
-    var userRole: AgoraClientRole = .broadcaster
-    
-    let appID = "Your app ID"
+
+    let appID = ""
     var token = "Your temp access token"
-    var channelName = "Your channel name"
+    var channelName = "iOS_test"
+    
+    var agoraEngine: AgoraRtcEngineKit!
+    var joined: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,25 +32,27 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         remoteView.frame = CGRect(x: 20, y: 50, width: 350, height: 330)
-        localView.frame = CGRect(x: 20, y: 400, width: 350, height: 330)
+        localView.frame = view.bounds
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         leaveChannel()
-        DispatchQueue.global(qos: .userInitiated).async {AgoraRtcEngineKit.destroy()}
+        DispatchQueue.global(qos: .userInitiated).async {
+            AgoraRtcEngineKit.destroy()
+        }
     }
     
     func initViews() {
         remoteView = UIView()
-        self.view.addSubview(remoteView)
+        view.addSubview(remoteView)
         
         localView = UIView()
-        self.view.addSubview(localView)
+        view.addSubview(localView)
         
         
         joinButton = UIButton(type: .custom)
-        joinButton.frame = CGRect(x: 140, y: 700, width: 100, height: 50)
+        joinButton.frame = CGRect(x: 140, y: UIScreen.main.bounds.height - 100, width: 100, height: 50)
         joinButton.layer.cornerRadius = 25
         joinButton.clipsToBounds = true
         joinButton.backgroundColor = .blue
@@ -64,14 +60,7 @@ class ViewController: UIViewController {
         joinButton.setTitle("Join", for: .normal)
         
         joinButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        self.view.addSubview(joinButton)
-        
-        // Selector to be the host or the audience
-        role = UISegmentedControl(items: ["Broadcast", "Audience"])
-        role.frame = CGRect(x: 20, y: 740, width: 350, height: 40)
-        role.selectedSegmentIndex = 0
-        role.addTarget(self, action: #selector(roleAction), for: .valueChanged)
-        self.view.addSubview(role)
+        view.addSubview(joinButton)
         
         // FaceUnity UI
         beautyViewManager = FUContainerManager(targetController: self, originY: view.frame.height - 250)
@@ -82,19 +71,6 @@ class ViewController: UIViewController {
         let config = AgoraRtcEngineConfig()
         config.appId = appID
         agoraEngine = AgoraRtcEngineKit.sharedEngine(with: config, delegate: self)
-    }
-    
-    func setupLocalVideo() {
-        // Enable the video module
-        agoraEngine.enableVideo()
-        // Start the local video preview
-        agoraEngine.startPreview()
-        let videoCanvas = AgoraRtcVideoCanvas()
-        videoCanvas.uid = 0
-        videoCanvas.renderMode = .hidden
-        videoCanvas.view = localView
-        // Set the local video view
-        agoraEngine.setupLocalVideo(videoCanvas)
     }
     
     @objc func buttonAction(sender: UIButton!) {
@@ -113,36 +89,52 @@ class ViewController: UIViewController {
             return
         }
         
-        if self.userRole == .broadcaster {
-            agoraEngine.setClientRole(.broadcaster)
-            setupLocalVideo()
-        } else {
-            agoraEngine.setClientRole(.audience)
-        }
-        
+        // make myself a broadcaster
         agoraEngine.setChannelProfile(.liveBroadcasting)
+        agoraEngine.setClientRole(.broadcaster)
+
+        // enable video module
+        agoraEngine.enableVideo()
+        agoraEngine.enableAudio()
         
-        // Join the channel with a temp token. Pass in your token and channel name here
-        let result = agoraEngine.join .joinChannel(
-            byToken: token, channelId: channelName, uid: 0, mediaOptions: option,
-            joinSuccess: { (channel, uid, elapsed) in }
-        )
+        // set up video encoding configs
+        let resolution = AgoraVideoDimension1280x720
+        let fps = AgoraVideoFrameRate.fps30
+        let orientation = AgoraVideoOutputOrientationMode.fixedPortrait
+        let encoderConfig = AgoraVideoEncoderConfiguration(size: resolution, frameRate: fps, bitrate: AgoraVideoBitrateStandard, orientationMode: orientation)
+        agoraEngine.setVideoEncoderConfiguration(encoderConfig)
         
+        // set up local video to render your local camera preview
+        let videoCanvas = AgoraRtcVideoCanvas()
+        videoCanvas.uid = UserInfo.userId
+        // the view to be binded
+        videoCanvas.view = localView
+        videoCanvas.renderMode = .hidden
+        agoraEngine.setupLocalVideo(videoCanvas)
+        agoraEngine.startPreview()
+        
+        // Set audio route to speaker
+        agoraEngine.setDefaultAudioRouteToSpeakerphone(true)
+        
+        // start joining channel
+        // 1. Users can only see each other after they join the
+        // same channel successfully using the same app id.
+        // 2. If app certificate is turned on at dashboard, token is needed
+        // when joining channel. The channel name and uid used to calculate
+        // the token has to match the ones used for channel join
+        let option = AgoraRtcChannelMediaOptions()
+        let result = agoraEngine.joinChannel(byToken: token, channelId: channelName, info: nil, uid: UserInfo.userId, options: option)
         if result == 0 {
             joined = true
-            showMessage(title: "Success", text: "Successfully joined the channel as \(userRole)")
+            showMessage(title: "Success", text: "Successfully joined the channel")
         }
     }
     
     func leaveChannel() {
-        agoraEngine.stopPreview()
+        agoraEngine.disableVideo()
+        agoraEngine.disableAudio()
         let result = agoraEngine.leaveChannel(nil)
-        // Check if leaving the channel was successful and set joined Bool accordingly
         if (result == 0) { joined = false }
-    }
-    
-    @objc func roleAction(sender: UISegmentedControl!) {
-        self.userRole = sender.selectedSegmentIndex == 0 ? .broadcaster : .audience
     }
     
     func checkForPermissions() -> Bool {
