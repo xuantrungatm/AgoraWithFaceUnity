@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     var localView: UIView!
     var remoteView: UIView!
     var joinButton: UIButton!
-
+    
     let appID = ""
     var token = "Your temp access token"
     var channelName = "iOS_test"
@@ -27,16 +27,14 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         initViews()
         initializeAgoraEngine()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        remoteView.frame = CGRect(x: 20, y: 50, width: 350, height: 330)
-        localView.frame = view.bounds
+        startPreview()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        agoraEngine.disableVideo()
+        agoraEngine.disableAudio()
         leaveChannel()
         DispatchQueue.global(qos: .userInitiated).async {
             AgoraRtcEngineKit.destroy()
@@ -44,12 +42,8 @@ class ViewController: UIViewController {
     }
     
     func initViews() {
-        remoteView = UIView()
-        view.addSubview(remoteView)
-        
-        localView = UIView()
+        localView = UIView(frame: UIScreen.main.bounds)
         view.addSubview(localView)
-        
         
         joinButton = UIButton(type: .custom)
         joinButton.frame = CGRect(x: 140, y: UIScreen.main.bounds.height - 100, width: 100, height: 50)
@@ -73,17 +67,7 @@ class ViewController: UIViewController {
         agoraEngine = AgoraRtcEngineKit.sharedEngine(with: config, delegate: self)
     }
     
-    @objc func buttonAction(sender: UIButton!) {
-        if !joined {
-            joinChannel()
-        } else {
-            leaveChannel()
-        }
-        
-        joinButton.setTitle(joined ? "Leave" : "Join", for: .normal)
-    }
-    
-    func joinChannel() {
+    private func startPreview() {
         if !checkForPermissions() {
             showMessage(title: "Error", text: "Permissions were not granted")
             return
@@ -92,7 +76,7 @@ class ViewController: UIViewController {
         // make myself a broadcaster
         agoraEngine.setChannelProfile(.liveBroadcasting)
         agoraEngine.setClientRole(.broadcaster)
-
+        
         // enable video module
         agoraEngine.enableVideo()
         agoraEngine.enableAudio()
@@ -116,6 +100,20 @@ class ViewController: UIViewController {
         // Set audio route to speaker
         agoraEngine.setDefaultAudioRouteToSpeakerphone(true)
         
+    }
+    
+    @objc func buttonAction(sender: UIButton!) {
+        if !joined {
+            joinChannel()
+        } else {
+            leaveChannel()
+        }
+        
+        joinButton.setTitle(joined ? "Leave" : "Join", for: .normal)
+    }
+    
+    func joinChannel() {
+        
         // start joining channel
         // 1. Users can only see each other after they join the
         // same channel successfully using the same app id.
@@ -131,8 +129,6 @@ class ViewController: UIViewController {
     }
     
     func leaveChannel() {
-        agoraEngine.disableVideo()
-        agoraEngine.disableAudio()
         let result = agoraEngine.leaveChannel(nil)
         if (result == 0) { joined = false }
     }
