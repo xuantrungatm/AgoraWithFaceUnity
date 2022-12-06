@@ -65,6 +65,8 @@
 		6B6AD3D7293EFA8C0003839E /* FUManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD393293EFA8C0003839E /* FUManager.m */; };
 		6B6AD3D9293EFA8C0003839E /* ai_human_processor_mb_fast.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B6AD399293EFA8C0003839E /* ai_human_processor_mb_fast.bundle */; };
 		6B6AD3DF293EFA8C0003839E /* ai_hairseg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B6AD39F293EFA8C0003839E /* ai_hairseg.bundle */; };
+		6B6AD3E9293F4A890003839E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD3E8293F4A890003839E /* NetworkManager.swift */; };
+		6B6AD3EB293F4ACF0003839E /* KeyCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD3EA293F4ACF0003839E /* KeyCenter.swift */; };
 		99725E7E42364E5302B30344 /* Pods_AgoraDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B7A8CAC0CC515217F95F77 /* Pods_AgoraDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -174,6 +176,8 @@
 		6B6AD3A6293EFA8C0003839E /* body_slim.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = body_slim.bundle; sourceTree = "<group>"; };
 		6B6AD3A7293EFA8C0003839E /* fuzzytoonfilter.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = fuzzytoonfilter.bundle; sourceTree = "<group>"; };
 		6B6AD3A8293EFA8C0003839E /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
+		6B6AD3E8293F4A890003839E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		6B6AD3EA293F4ACF0003839E /* KeyCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCenter.swift; sourceTree = "<group>"; };
 		C5769544EAEF7A79EB5FF676 /* Pods-AgoraDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraDemo.release.xcconfig"; path = "Target Support Files/Pods-AgoraDemo/Pods-AgoraDemo.release.xcconfig"; sourceTree = "<group>"; };
 		D4B7A8CAC0CC515217F95F77 /* Pods_AgoraDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AgoraDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -233,7 +237,9 @@
 				6B6ACFE6293DE2CD0003839E /* UserInfo.swift */,
 				6B6A7158293741790003839E /* AppDelegate.swift */,
 				6B6A715A293741790003839E /* SceneDelegate.swift */,
+				6B6AD3E8293F4A890003839E /* NetworkManager.swift */,
 				6B6A715C293741790003839E /* ViewController.swift */,
+				6B6AD3EA293F4ACF0003839E /* KeyCenter.swift */,
 				6B6A715E293741790003839E /* Main.storyboard */,
 				6B6A71612937417A0003839E /* Assets.xcassets */,
 				6B6A71632937417A0003839E /* LaunchScreen.storyboard */,
@@ -619,11 +625,13 @@
 				6B6AD3B2293EFA8C0003839E /* FUBeautyShapeModel.m in Sources */,
 				6B6AD3B8293EFA8C0003839E /* FUMakeupModel.m in Sources */,
 				6B6AD3BE293EFA8C0003839E /* FUBeautyFunctionView.m in Sources */,
+				6B6AD3E9293F4A890003839E /* NetworkManager.swift in Sources */,
 				6B6AD3B3293EFA8C0003839E /* FUBeautySkinModel.m in Sources */,
 				6B6AD3AB293EFA8C0003839E /* FUBeautyShapeViewModel.m in Sources */,
 				6B6AD3AD293EFA8C0003839E /* FUMakeupViewModel.m in Sources */,
 				6B6AD3BC293EFA8C0003839E /* FUOthersFunctionView.m in Sources */,
 				6B6AD3D7293EFA8C0003839E /* FUManager.m in Sources */,
+				6B6AD3EB293F4ACF0003839E /* KeyCenter.swift in Sources */,
 				6B6AD3BD293EFA8C0003839E /* FUFunctionView.m in Sources */,
 				6B6AD3AE293EFA8C0003839E /* FUFilterViewModel.m in Sources */,
 				6B6A738529385CE60003839E /* CapturerManager.m in Sources */,
