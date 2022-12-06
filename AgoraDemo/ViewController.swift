@@ -40,13 +40,14 @@ class ViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+        FUManager.share().destoryItems()
+        capturerManager.stopCapture()
         agoraEngine.disableVideo()
         agoraEngine.disableAudio()
+        agoraEngine.stopPreview()
+        agoraEngine.setVideoSource(nil)
         leaveChannel()
-        DispatchQueue.global(qos: .userInitiated).async {
-            AgoraRtcEngineKit.destroy()
-        }
+        AgoraRtcEngineKit.destroy()
     }
     
     func initViews() {
