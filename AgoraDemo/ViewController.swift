@@ -8,18 +8,25 @@
 import AVFoundation
 import UIKit
 import AgoraRtcKit
+import AGMCapturer
+import AGMRenderer
 
 class ViewController: UIViewController {
     
-    var beautyViewManager: FUContainerManager!
+    var beautyViewManager: FUDemoManager!
     var localView: UIView!
     var remoteView: UIView!
     var joinButton: UIButton!
+    var switchCameraButton: UIButton!
     
     let appID = ""
     var token = "Your temp access token"
     var channelName = "iOS_test"
     
+    var glVideoView: AGMEAGLVideoView!
+    var videoFilter: FUManager!
+    var capturerManager: CapturerManager!
+    var processingManager: VideoProcessingManager!
     var agoraEngine: AgoraRtcEngineKit!
     var joined: Bool = false
     
@@ -27,6 +34,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         initViews()
         initializeAgoraEngine()
+        initFaceUnity()
         startPreview()
     }
     
@@ -52,13 +60,18 @@ class ViewController: UIViewController {
         joinButton.backgroundColor = .blue
         joinButton.setTitleColor(.white, for: .normal)
         joinButton.setTitle("Join", for: .normal)
-        
-        joinButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        joinButton.addTarget(self, action: #selector(joinAction), for: .touchUpInside)
         view.addSubview(joinButton)
         
-        // FaceUnity UI
-        beautyViewManager = FUContainerManager(targetController: self, originY: view.frame.height - 250)
-        
+        switchCameraButton = UIButton(type: .custom)
+        switchCameraButton.frame = CGRect(x: 16, y: 50, width: 80, height: 40)
+        switchCameraButton.layer.cornerRadius = 20
+        switchCameraButton.clipsToBounds = true
+        switchCameraButton.backgroundColor = .blue
+        switchCameraButton.setTitleColor(.white, for: .normal)
+        switchCameraButton.setTitle("Camera", for: .normal)
+        switchCameraButton.addTarget(self, action: #selector(switchCamera), for: .touchUpInside)
+        view.addSubview(switchCameraButton)
     }
     
     func initializeAgoraEngine() {
@@ -102,7 +115,42 @@ class ViewController: UIViewController {
         
     }
     
-    @objc func buttonAction(sender: UIButton!) {
+    private func initFaceUnity() {
+        beautyViewManager = FUDemoManager.setupFaceUnityDemo(in: self, originY: view.frame.height - 250)
+        
+        // init process manager
+        processingManager = VideoProcessingManager()
+        
+        // init capturer, it will push pixelbuffer to rtc channel
+        let videoConfig = AGMCapturerVideoConfig()
+        videoConfig.sessionPreset = AVCaptureSession.Preset.hd1280x720 as NSString
+        videoConfig.fps = 30;
+        videoConfig.pixelFormat = AGMVideoPixelFormat.NV12
+        videoConfig.cameraPosition = .front
+        videoConfig.autoRotateBuffers = true
+        
+        capturerManager = CapturerManager(videoConfig: videoConfig, delegate: processingManager)
+        
+        // add FaceUnity filter and add to process manager
+        videoFilter = FUManager.share()
+        processingManager.addVideoFilter(videoFilter)
+        // self.processingManager.enableFilter = NO;
+        
+        capturerManager.startCapture()
+
+        glVideoView = AGMEAGLVideoView(frame: localView.frame)
+        localView.addSubview(glVideoView)
+        capturerManager.videoView = glVideoView
+        // set custom capturer as video source
+        agoraEngine.setVideoSource(capturerManager)
+    }
+    
+    @objc func switchCamera(sender: UIButton!) {
+        capturerManager.switchCamera()
+        FUManager.share().onCameraChange()
+    }
+    
+    @objc func joinAction(sender: UIButton!) {
         if !joined {
             joinChannel()
         } else {

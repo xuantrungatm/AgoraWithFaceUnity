@@ -28,7 +28,7 @@ PODS:
 
 DEPENDENCIES:
   - AGMCapturer_iOS (~> 2.0.1)
-  - AgoraRtcEngine_iOS (~> 3.7.0)
+  - AgoraRtcEngine_iOS (~> 3.7.2)
   - FURenderKit (~> 8.3.0)
   - Masonry (~> 1.1.0)
 
@@ -45,6 +45,6 @@ SPEC CHECKSUMS:
   FURenderKit: f6f1a1f0554d7a0013eded1aa97f9dcba7d4fadd
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
 
-PODFILE CHECKSUM: e7cdd5c3fff20e0de1a64f4f0d101099d6db9d88
+PODFILE CHECKSUM: e25ea10f6c21e87187f5cb6ee02271be778fdd94
 
 COCOAPODS: 1.11.3

@@ -6,6 +6,8 @@
 #define AppBridgingHeader_h
 
 #import "FUManager.h"
-#import "FUContainerManager.h"
+#import "FUDemoManager.h"
+#import "VideoProcessingManager.h"
+#import "CapturerManager.h"
 
 #endif /* AppBridgingHeader_h */
