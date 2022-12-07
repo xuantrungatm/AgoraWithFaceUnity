@@ -82,6 +82,30 @@
     [self.cameraCapturer switchCamera];
 }
 
+- (void)setExposurePoint:(CGPoint)point inPreviewFrame:(CGRect)frame {
+    [self.cameraCapturer setExposurePoint:point inPreviewFrame:frame];
+}
+
+- (void)setExposurePoint:(CGPoint)point {
+    [self.cameraCapturer setExposurePoint:point];
+}
+
+- (void)setFocusPoint:(CGPoint)point {
+    [self.cameraCapturer setFocusPoint:point];
+}
+
+- (void)setISOValue:(float)value {
+    [self.cameraCapturer setISOValue:value];
+}
+
+- (void)setCaptureVideoOrientation:(AVCaptureVideoOrientation)orientation {
+    [self.cameraCapturer setCaptureVideoOrientation:orientation];
+}
+
+- (void)setVideoMirrored:(BOOL)mirror {
+    [self.cameraCapturer setVideoMirrored:mirror];
+}
+
 #pragma mark - AgoraVideoSourceProtocol
 - (AgoraVideoBufferType)bufferType {
     return AgoraVideoBufferTypePixelBuffer;

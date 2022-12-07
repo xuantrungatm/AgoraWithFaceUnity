@@ -21,6 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startCapture;
 - (void)stopCapture;
 - (void)switchCamera;
+- (void)setExposurePoint:(CGPoint)point inPreviewFrame:(CGRect)frame;
+- (void)setExposurePoint:(CGPoint)point;
+- (void)setFocusPoint:(CGPoint)point;
+- (void)setISOValue:(float)value;
+/** If you want to set video orientation, you must set autoRotateBuffers to NO. */
+- (void)setCaptureVideoOrientation:(AVCaptureVideoOrientation)orientation;
+/** If you want to set video mirrored, you must set videoMirrored to NO. */
+- (void)setVideoMirrored:(BOOL)mirror;
 
 @property (nonatomic, strong) AGMEAGLVideoView *videoView;
 

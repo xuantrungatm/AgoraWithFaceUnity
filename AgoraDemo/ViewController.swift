@@ -55,8 +55,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         initViews()
         initializeAgoraEngine()
-        initFaceUnity()
         startPreview()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        glVideoView.frame = view.bounds
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -110,6 +114,7 @@ class ViewController: UIViewController {
     func initializeAgoraEngine() {
         let config = AgoraRtcEngineConfig()
         config.appId = KeyCenter.AppId
+        config.areaCode = AgoraAreaCode.GLOB.rawValue
         agoraEngine = AgoraRtcEngineKit.sharedEngine(with: config, delegate: self)
     }
     
@@ -131,17 +136,11 @@ class ViewController: UIViewController {
         let resolution = AgoraVideoDimension1280x720
         let fps = AgoraVideoFrameRate.fps30
         let orientation = AgoraVideoOutputOrientationMode.fixedPortrait
-        let encoderConfig = AgoraVideoEncoderConfiguration(size: resolution, frameRate: fps, bitrate: AgoraVideoBitrateStandard, orientationMode: orientation)
+        let encoderConfig = AgoraVideoEncoderConfiguration(size: resolution, frameRate: fps, bitrate: 2500, orientationMode: orientation)
+        encoderConfig.minBitrate = 1200
         agoraEngine.setVideoEncoderConfiguration(encoderConfig)
         
-        // set up local video to render your local camera preview
-        let videoCanvas = AgoraRtcVideoCanvas()
-        videoCanvas.uid = UserInfo.userId
-        // the view to be binded
-        videoCanvas.view = localView
-        videoCanvas.renderMode = .hidden
-        agoraEngine.setupLocalVideo(videoCanvas)
-        agoraEngine.startPreview()
+        setupFaceUnity() // use camera capture
         
         // Set audio route to speaker
         agoraEngine.setDefaultAudioRouteToSpeakerphone(true)
@@ -149,7 +148,18 @@ class ViewController: UIViewController {
         }
     }
     
-    private func initFaceUnity() {
+    // set up local video to render your local camera preview
+    private func setupLocalVideo() {
+        let videoCanvas = AgoraRtcVideoCanvas()
+        videoCanvas.uid = UserInfo.userId
+        // the view to be binded
+        videoCanvas.view = localView
+        videoCanvas.renderMode = .hidden
+        agoraEngine.setupLocalVideo(videoCanvas)
+        agoraEngine.startPreview()
+    }
+    
+    private func setupFaceUnity() {
         beautyViewManager = FUDemoManager.setupFaceUnityDemo(in: self, originY: view.frame.height - 250)
         
         // init process manager
@@ -164,11 +174,11 @@ class ViewController: UIViewController {
         videoConfig.autoRotateBuffers = true
         
         capturerManager = CapturerManager(videoConfig: videoConfig, delegate: processingManager)
+        capturerManager.setCaptureVideoOrientation(.portrait)
         
         // add FaceUnity filter and add to process manager
         videoFilter = FUManager.share()
         processingManager.addVideoFilter(videoFilter)
-        // self.processingManager.enableFilter = NO;
         
         capturerManager.startCapture()
 
@@ -181,7 +191,7 @@ class ViewController: UIViewController {
     
     @objc func switchCamera(sender: UIButton!) {
         capturerManager.switchCamera()
-        FUManager.share().onCameraChange()
+       // FUManager.share().onCameraChange()
     }
     
     @objc func publish(sender: UIButton!) {
@@ -195,11 +205,8 @@ class ViewController: UIViewController {
     }
     
     func startRtmpStreaming(isTranscoding: Bool, rtmpURL: String) {
-        if(isTranscoding){
-            // we will use transcoding to composite multiple hosts' video
-            // therefore we have to create a livetranscoding object and call before addPublishStreamUrl
+        if isTranscoding {
             transcoding.size = AgoraVideoDimension1280x720
-//            agoraKit.setLiveTranscoding(transcoding)
             agoraEngine.startRtmpStream(withTranscoding: rtmpURL, transcoding: transcoding)
         }
         else{
@@ -216,13 +223,6 @@ class ViewController: UIViewController {
     }
     
     func joinChannel() {
-        
-        // start joining channel
-        // 1. Users can only see each other after they join the
-        // same channel successfully using the same app id.
-        // 2. If app certificate is turned on at dashboard, token is needed
-        // when joining channel. The channel name and uid used to calculate
-        // the token has to match the ones used for channel join
         let option = AgoraRtcChannelMediaOptions()
         option.autoSubscribeAudio = true
         option.autoSubscribeVideo = true
@@ -242,15 +242,23 @@ class ViewController: UIViewController {
         var hasPermissions = false
         
         switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized: hasPermissions = true
-        default: hasPermissions = requestCameraAccess()
+        case .authorized:
+            hasPermissions = true
+        default:
+            hasPermissions = requestCameraAccess()
         }
-        // Break out, because camera permissions have been denied or restricted.
-        if !hasPermissions { return false }
+       
+        if !hasPermissions {
+            return false
+        }
+        
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
-        case .authorized: hasPermissions = true
-        default: hasPermissions = requestAudioAccess()
+        case .authorized:
+            hasPermissions = true
+        default:
+            hasPermissions = requestAudioAccess()
         }
+        
         return hasPermissions
     }
     
@@ -381,6 +389,7 @@ extension ViewController: AgoraRtcEngineDelegate {
             }
         } else if state == .failure {
             agoraEngine.stopRtmpStream(rtmpURL)
+            isPublished = false
             if errorCode == .streamingErrorCodeInternalServerError
                 || errorCode == .streamingErrorCodeStreamNotFound
                 || errorCode == .streamPublishErrorNetDown

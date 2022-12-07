@@ -252,12 +252,12 @@
 		6B6A733D29385CE60003839E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6B6A733E29385CE60003839E /* CapturerManager.h */,
-				6B6A733F29385CE60003839E /* VideoProcessingManager.m */,
-				6B6A734029385CE60003839E /* CapturerManagerDelegate.h */,
-				6B6A734129385CE60003839E /* VideoFilterDelegate.h */,
 				6B6A734229385CE60003839E /* VideoProcessingManager.h */,
+				6B6A733F29385CE60003839E /* VideoProcessingManager.m */,
+				6B6A734129385CE60003839E /* VideoFilterDelegate.h */,
+				6B6A733E29385CE60003839E /* CapturerManager.h */,
 				6B6A734329385CE60003839E /* CapturerManager.m */,
+				6B6A734029385CE60003839E /* CapturerManagerDelegate.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
