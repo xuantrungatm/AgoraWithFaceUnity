@@ -43,7 +43,7 @@ class ViewController: UIViewController {
         }
     }
     
-    var transcoding = AgoraLiveTranscoding.default()
+    var transcoding = AgoraLiveTranscoding()
     var retried: UInt = 0
     var unpublishing: Bool = false
     let MAX_RETRY_TIMES = 3
@@ -54,11 +54,6 @@ class ViewController: UIViewController {
         initViews()
         initializeAgoraEngine()
         startPreview()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        glVideoView.frame = view.bounds
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -112,7 +107,6 @@ class ViewController: UIViewController {
     func initializeAgoraEngine() {
         let config = AgoraRtcEngineConfig()
         config.appId = KeyCenter.AppId
-        config.areaCode = AgoraAreaCode.GLOB.rawValue
         agoraEngine = AgoraRtcEngineKit.sharedEngine(with: config, delegate: self)
     }
     
@@ -131,14 +125,14 @@ class ViewController: UIViewController {
         agoraEngine.enableAudio()
         
         // set up video encoding configs
-        let resolution = AgoraVideoDimension1280x720
-        let fps = AgoraVideoFrameRate.fps30
-        let orientation = AgoraVideoOutputOrientationMode.fixedPortrait
-        let encoderConfig = AgoraVideoEncoderConfiguration(size: resolution, frameRate: fps, bitrate: 2500, orientationMode: orientation)
-        encoderConfig.minBitrate = 1200
+        // https://docs.agora.io/en/3.x/video-calling/basic-features/video-profiles?platform=ios
+        let encoderConfig = AgoraVideoEncoderConfiguration(size: AgoraVideoDimension1280x720, frameRate: .fps30, bitrate: 3420, orientationMode: .fixedPortrait)
+        encoderConfig.minFrameRate = 15
+        encoderConfig.minBitrate = 1710
         agoraEngine.setVideoEncoderConfiguration(encoderConfig)
-        
-        setupFaceUnity() // use camera capture
+       
+        setupLocalVideo()
+       // setupFaceUnity() // use camera capture
         
         // Set audio route to speaker
         agoraEngine.setDefaultAudioRouteToSpeakerphone(true)
@@ -167,7 +161,7 @@ class ViewController: UIViewController {
         let videoConfig = AGMCapturerVideoConfig()
         videoConfig.sessionPreset = AVCaptureSession.Preset.hd1280x720 as NSString
         videoConfig.fps = 30;
-        videoConfig.pixelFormat = AGMVideoPixelFormat.BGRA
+        videoConfig.pixelFormat = AGMVideoPixelFormat.NV12
         videoConfig.cameraPosition = .front
         videoConfig.autoRotateBuffers = true
         
@@ -204,7 +198,7 @@ class ViewController: UIViewController {
     
     func startRtmpStreaming(isTranscoding: Bool, rtmpURL: String) {
         if isTranscoding {
-            transcoding.size = AgoraVideoDimension1280x720
+            transcoding.size = CGSize(width: 720, height: 1280)
             agoraEngine.startRtmpStream(withTranscoding: rtmpURL, transcoding: transcoding)
         }
         else{
@@ -341,7 +335,7 @@ extension ViewController: AgoraRtcEngineDelegate {
         // add transcoding user so the video stream will be involved
         // in future RTMP Stream
         let user = AgoraLiveTranscodingUser()
-        user.rect = CGRect(origin: .zero, size: AgoraVideoDimension1280x720)
+        user.rect = CGRect(origin: .zero, size: CGSize(width: 720, height: 1280))
         user.uid = uid
         transcoding.add(user)
     }
