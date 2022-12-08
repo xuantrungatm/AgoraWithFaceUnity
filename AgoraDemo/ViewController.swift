@@ -8,8 +8,6 @@
 import AVFoundation
 import UIKit
 import AgoraRtcKit
-import AGMCapturer
-import AGMRenderer
 
 class ViewController: UIViewController {
     
@@ -169,20 +167,20 @@ class ViewController: UIViewController {
         let videoConfig = AGMCapturerVideoConfig()
         videoConfig.sessionPreset = AVCaptureSession.Preset.hd1280x720 as NSString
         videoConfig.fps = 30;
-        videoConfig.pixelFormat = AGMVideoPixelFormat.NV12
+        videoConfig.pixelFormat = AGMVideoPixelFormat.BGRA
         videoConfig.cameraPosition = .front
         videoConfig.autoRotateBuffers = true
         
         capturerManager = CapturerManager(videoConfig: videoConfig, delegate: processingManager)
-        capturerManager.setCaptureVideoOrientation(.portrait)
         
         // add FaceUnity filter and add to process manager
         videoFilter = FUManager.share()
         processingManager.addVideoFilter(videoFilter)
-        
         capturerManager.startCapture()
 
         glVideoView = AGMEAGLVideoView(frame: localView.frame)
+        glVideoView.renderMode = .adaptive
+        glVideoView.mirror = true
         localView.addSubview(glVideoView)
         capturerManager.videoView = glVideoView
         // set custom capturer as video source

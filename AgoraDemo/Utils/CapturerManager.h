@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <AgoraRtcKit/AgoraRtcEngineKit.h>
-#import <AGMCapturer/AGMCapturer.h>
-#import <AGMBase/AGMBase.h>
+#import "AGMCapturer.h"
+#import "AGMBase.h"
 #import "CapturerManagerDelegate.h"
-#import <AGMRenderer/AGMRenderer.h>
+#import "AGMRenderer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

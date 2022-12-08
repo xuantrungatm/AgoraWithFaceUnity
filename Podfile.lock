@@ -1,5 +1,4 @@
 PODS:
-  - AGMCapturer_iOS (2.0.1)
   - AgoraRtcEngine_iOS (3.7.2):
     - AgoraRtcEngine_iOS/AINS (= 3.7.2)
     - AgoraRtcEngine_iOS/AV1Dec (= 3.7.2)
@@ -27,24 +26,21 @@ PODS:
   - Masonry (1.1.0)
 
 DEPENDENCIES:
-  - AGMCapturer_iOS (~> 2.0.1)
   - AgoraRtcEngine_iOS (~> 3.7.2)
   - FURenderKit (~> 8.3.0)
   - Masonry (~> 1.1.0)
 
 SPEC REPOS:
   trunk:
-    - AGMCapturer_iOS
     - AgoraRtcEngine_iOS
     - FURenderKit
     - Masonry
 
 SPEC CHECKSUMS:
-  AGMCapturer_iOS: db3e573afc0a6cd9f73dfc36b6ef4df7887f922a
   AgoraRtcEngine_iOS: 35387cd8e2131e1e3c3ac6c196818072ad0b9b75
   FURenderKit: f6f1a1f0554d7a0013eded1aa97f9dcba7d4fadd
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
 
-PODFILE CHECKSUM: e25ea10f6c21e87187f5cb6ee02271be778fdd94
+PODFILE CHECKSUM: 101f18ee906dafa077573f364c5071ff9bb13b48
 
 COCOAPODS: 1.11.3

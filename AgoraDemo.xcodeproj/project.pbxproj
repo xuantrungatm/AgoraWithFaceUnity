@@ -67,6 +67,17 @@
 		6B6AD3DF293EFA8C0003839E /* ai_hairseg.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B6AD39F293EFA8C0003839E /* ai_hairseg.bundle */; };
 		6B6AD3E9293F4A890003839E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD3E8293F4A890003839E /* NetworkManager.swift */; };
 		6B6AD3EB293F4ACF0003839E /* KeyCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD3EA293F4ACF0003839E /* KeyCenter.swift */; };
+		6B6AD45B2940AA0C0003839E /* AGMEAGLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4412940AA0B0003839E /* AGMEAGLContext.m */; };
+		6B6AD45C2940AA0C0003839E /* AGMCVPixelBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4422940AA0B0003839E /* AGMCVPixelBuffer.m */; };
+		6B6AD45D2940AA0C0003839E /* AGMDefaultShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4442940AA0B0003839E /* AGMDefaultShader.mm */; };
+		6B6AD45E2940AA0C0003839E /* AGMRGBATexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4452940AA0B0003839E /* AGMRGBATexture.m */; };
+		6B6AD45F2940AA0C0003839E /* AGMRGBATextureCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4472940AA0B0003839E /* AGMRGBATextureCache.m */; };
+		6B6AD4602940AA0C0003839E /* AGMNV12Texture.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4482940AA0B0003839E /* AGMNV12Texture.m */; };
+		6B6AD4612940AA0C0003839E /* AGMNV12TextureCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD44C2940AA0B0003839E /* AGMNV12TextureCache.m */; };
+		6B6AD4622940AA0C0003839E /* AGMShader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD44D2940AA0B0003839E /* AGMShader.mm */; };
+		6B6AD4632940AA0C0003839E /* AGMEAGLVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4532940AA0B0003839E /* AGMEAGLVideoView.m */; };
+		6B6AD4642940AA0C0003839E /* AGMCameraCapturer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4582940AA0C0003839E /* AGMCameraCapturer.m */; };
+		6B6AD4652940AA0C0003839E /* AGMCapturerVideoConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6AD4592940AA0C0003839E /* AGMCapturerVideoConfig.m */; };
 		99725E7E42364E5302B30344 /* Pods_AgoraDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B7A8CAC0CC515217F95F77 /* Pods_AgoraDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -178,6 +189,35 @@
 		6B6AD3A8293EFA8C0003839E /* face_beautification.bundle */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_beautification.bundle; sourceTree = "<group>"; };
 		6B6AD3E8293F4A890003839E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		6B6AD3EA293F4ACF0003839E /* KeyCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCenter.swift; sourceTree = "<group>"; };
+		6B6AD43C2940AA0B0003839E /* AGMNV12Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMNV12Texture.h; sourceTree = "<group>"; };
+		6B6AD43D2940AA0B0003839E /* AGMRGBATextureCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMRGBATextureCache.h; sourceTree = "<group>"; };
+		6B6AD43E2940AA0B0003839E /* AGMNV12TextureCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMNV12TextureCache.h; sourceTree = "<group>"; };
+		6B6AD43F2940AA0B0003839E /* AGMOpenGLDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMOpenGLDefines.h; sourceTree = "<group>"; };
+		6B6AD4402940AA0B0003839E /* AGMDefaultShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMDefaultShader.h; sourceTree = "<group>"; };
+		6B6AD4412940AA0B0003839E /* AGMEAGLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMEAGLContext.m; sourceTree = "<group>"; };
+		6B6AD4422940AA0B0003839E /* AGMCVPixelBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMCVPixelBuffer.m; sourceTree = "<group>"; };
+		6B6AD4432940AA0B0003839E /* AGMShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMShader.h; sourceTree = "<group>"; };
+		6B6AD4442940AA0B0003839E /* AGMDefaultShader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AGMDefaultShader.mm; sourceTree = "<group>"; };
+		6B6AD4452940AA0B0003839E /* AGMRGBATexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMRGBATexture.m; sourceTree = "<group>"; };
+		6B6AD4462940AA0B0003839E /* AGMVideoViewShading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMVideoViewShading.h; sourceTree = "<group>"; };
+		6B6AD4472940AA0B0003839E /* AGMRGBATextureCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMRGBATextureCache.m; sourceTree = "<group>"; };
+		6B6AD4482940AA0B0003839E /* AGMNV12Texture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMNV12Texture.m; sourceTree = "<group>"; };
+		6B6AD4492940AA0B0003839E /* AGMEAGLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMEAGLContext.h; sourceTree = "<group>"; };
+		6B6AD44A2940AA0B0003839E /* AGMCVPixelBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMCVPixelBuffer.h; sourceTree = "<group>"; };
+		6B6AD44B2940AA0B0003839E /* AGMMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMMacros.h; sourceTree = "<group>"; };
+		6B6AD44C2940AA0B0003839E /* AGMNV12TextureCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMNV12TextureCache.m; sourceTree = "<group>"; };
+		6B6AD44D2940AA0B0003839E /* AGMShader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AGMShader.mm; sourceTree = "<group>"; };
+		6B6AD44E2940AA0B0003839E /* AGMBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMBase.h; sourceTree = "<group>"; };
+		6B6AD44F2940AA0B0003839E /* AGMRGBATexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMRGBATexture.h; sourceTree = "<group>"; };
+		6B6AD4502940AA0B0003839E /* AGMVideoFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMVideoFrame.h; sourceTree = "<group>"; };
+		6B6AD4522940AA0B0003839E /* AGMRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMRenderer.h; sourceTree = "<group>"; };
+		6B6AD4532940AA0B0003839E /* AGMEAGLVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMEAGLVideoView.m; sourceTree = "<group>"; };
+		6B6AD4542940AA0B0003839E /* AGMEAGLVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMEAGLVideoView.h; sourceTree = "<group>"; };
+		6B6AD4562940AA0C0003839E /* AGMCapturerVideoConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMCapturerVideoConfig.h; sourceTree = "<group>"; };
+		6B6AD4572940AA0C0003839E /* AGMCapturer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMCapturer.h; sourceTree = "<group>"; };
+		6B6AD4582940AA0C0003839E /* AGMCameraCapturer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMCameraCapturer.m; sourceTree = "<group>"; };
+		6B6AD4592940AA0C0003839E /* AGMCapturerVideoConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGMCapturerVideoConfig.m; sourceTree = "<group>"; };
+		6B6AD45A2940AA0C0003839E /* AGMCameraCapturer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGMCameraCapturer.h; sourceTree = "<group>"; };
 		C5769544EAEF7A79EB5FF676 /* Pods-AgoraDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraDemo.release.xcconfig"; path = "Target Support Files/Pods-AgoraDemo/Pods-AgoraDemo.release.xcconfig"; sourceTree = "<group>"; };
 		D4B7A8CAC0CC515217F95F77 /* Pods_AgoraDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AgoraDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -232,6 +272,7 @@
 		6B6A7157293741790003839E /* AgoraDemo */ = {
 			isa = PBXGroup;
 			children = (
+				6B6AD3F32940A35F0003839E /* AGMCapturer */,
 				6B6AD342293EFA8C0003839E /* FaceUnity */,
 				6B6A733D29385CE60003839E /* Utils */,
 				6B6ACFE6293DE2CD0003839E /* UserInfo.swift */,
@@ -452,6 +493,66 @@
 			path = graphics;
 			sourceTree = "<group>";
 		};
+		6B6AD3F32940A35F0003839E /* AGMCapturer */ = {
+			isa = PBXGroup;
+			children = (
+				6B6AD43B2940AA0B0003839E /* AGMBase */,
+				6B6AD4552940AA0C0003839E /* AGMCapturer */,
+				6B6AD4512940AA0B0003839E /* AGMRenderer */,
+			);
+			path = AGMCapturer;
+			sourceTree = "<group>";
+		};
+		6B6AD43B2940AA0B0003839E /* AGMBase */ = {
+			isa = PBXGroup;
+			children = (
+				6B6AD43C2940AA0B0003839E /* AGMNV12Texture.h */,
+				6B6AD43D2940AA0B0003839E /* AGMRGBATextureCache.h */,
+				6B6AD43E2940AA0B0003839E /* AGMNV12TextureCache.h */,
+				6B6AD43F2940AA0B0003839E /* AGMOpenGLDefines.h */,
+				6B6AD4402940AA0B0003839E /* AGMDefaultShader.h */,
+				6B6AD4412940AA0B0003839E /* AGMEAGLContext.m */,
+				6B6AD4422940AA0B0003839E /* AGMCVPixelBuffer.m */,
+				6B6AD4432940AA0B0003839E /* AGMShader.h */,
+				6B6AD4442940AA0B0003839E /* AGMDefaultShader.mm */,
+				6B6AD4452940AA0B0003839E /* AGMRGBATexture.m */,
+				6B6AD4462940AA0B0003839E /* AGMVideoViewShading.h */,
+				6B6AD4472940AA0B0003839E /* AGMRGBATextureCache.m */,
+				6B6AD4482940AA0B0003839E /* AGMNV12Texture.m */,
+				6B6AD4492940AA0B0003839E /* AGMEAGLContext.h */,
+				6B6AD44A2940AA0B0003839E /* AGMCVPixelBuffer.h */,
+				6B6AD44B2940AA0B0003839E /* AGMMacros.h */,
+				6B6AD44C2940AA0B0003839E /* AGMNV12TextureCache.m */,
+				6B6AD44D2940AA0B0003839E /* AGMShader.mm */,
+				6B6AD44E2940AA0B0003839E /* AGMBase.h */,
+				6B6AD44F2940AA0B0003839E /* AGMRGBATexture.h */,
+				6B6AD4502940AA0B0003839E /* AGMVideoFrame.h */,
+			);
+			path = AGMBase;
+			sourceTree = "<group>";
+		};
+		6B6AD4512940AA0B0003839E /* AGMRenderer */ = {
+			isa = PBXGroup;
+			children = (
+				6B6AD4522940AA0B0003839E /* AGMRenderer.h */,
+				6B6AD4532940AA0B0003839E /* AGMEAGLVideoView.m */,
+				6B6AD4542940AA0B0003839E /* AGMEAGLVideoView.h */,
+			);
+			path = AGMRenderer;
+			sourceTree = "<group>";
+		};
+		6B6AD4552940AA0C0003839E /* AGMCapturer */ = {
+			isa = PBXGroup;
+			children = (
+				6B6AD4562940AA0C0003839E /* AGMCapturerVideoConfig.h */,
+				6B6AD4572940AA0C0003839E /* AGMCapturer.h */,
+				6B6AD4582940AA0C0003839E /* AGMCameraCapturer.m */,
+				6B6AD4592940AA0C0003839E /* AGMCapturerVideoConfig.m */,
+				6B6AD45A2940AA0C0003839E /* AGMCameraCapturer.h */,
+			);
+			path = AGMCapturer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -615,9 +716,12 @@
 			files = (
 				6B6AD3B4293EFA8C0003839E /* FUBeautyBodyModel.m in Sources */,
 				6B6AD3AA293EFA8C0003839E /* FUBeautySkinViewModel.m in Sources */,
+				6B6AD45F2940AA0C0003839E /* AGMRGBATextureCache.m in Sources */,
+				6B6AD4612940AA0C0003839E /* AGMNV12TextureCache.m in Sources */,
 				6B6AD3B9293EFA8C0003839E /* FUBottomBar.m in Sources */,
 				6B6A715D293741790003839E /* ViewController.swift in Sources */,
 				6B6AD3A9293EFA8C0003839E /* FUViewModel.m in Sources */,
+				6B6AD4602940AA0C0003839E /* AGMNV12Texture.m in Sources */,
 				6B6AD3B6293EFA8C0003839E /* FUModel.m in Sources */,
 				6B6A7159293741790003839E /* AppDelegate.swift in Sources */,
 				6B6A715B293741790003839E /* SceneDelegate.swift in Sources */,
@@ -627,22 +731,30 @@
 				6B6AD3BE293EFA8C0003839E /* FUBeautyFunctionView.m in Sources */,
 				6B6AD3E9293F4A890003839E /* NetworkManager.swift in Sources */,
 				6B6AD3B3293EFA8C0003839E /* FUBeautySkinModel.m in Sources */,
+				6B6AD4652940AA0C0003839E /* AGMCapturerVideoConfig.m in Sources */,
 				6B6AD3AB293EFA8C0003839E /* FUBeautyShapeViewModel.m in Sources */,
 				6B6AD3AD293EFA8C0003839E /* FUMakeupViewModel.m in Sources */,
 				6B6AD3BC293EFA8C0003839E /* FUOthersFunctionView.m in Sources */,
 				6B6AD3D7293EFA8C0003839E /* FUManager.m in Sources */,
+				6B6AD4632940AA0C0003839E /* AGMEAGLVideoView.m in Sources */,
 				6B6AD3EB293F4ACF0003839E /* KeyCenter.swift in Sources */,
 				6B6AD3BD293EFA8C0003839E /* FUFunctionView.m in Sources */,
+				6B6AD45D2940AA0C0003839E /* AGMDefaultShader.mm in Sources */,
 				6B6AD3AE293EFA8C0003839E /* FUFilterViewModel.m in Sources */,
 				6B6A738529385CE60003839E /* CapturerManager.m in Sources */,
 				6B6AD3AC293EFA8C0003839E /* FUStickerViewModel.m in Sources */,
 				6B6ACFE7293DE2CD0003839E /* UserInfo.swift in Sources */,
 				6B6A738429385CE60003839E /* VideoProcessingManager.m in Sources */,
+				6B6AD45E2940AA0C0003839E /* AGMRGBATexture.m in Sources */,
+				6B6AD4622940AA0C0003839E /* AGMShader.mm in Sources */,
+				6B6AD4642940AA0C0003839E /* AGMCameraCapturer.m in Sources */,
 				6B6AD3BB293EFA8C0003839E /* FUSquareButton.m in Sources */,
 				6B6AD3BA293EFA8C0003839E /* FUSlider.m in Sources */,
 				6B6AD3B1293EFA8C0003839E /* FUTestRecorder.m in Sources */,
 				6B6AD3B7293EFA8C0003839E /* FUStickerModel.m in Sources */,
 				6B6AD3B0293EFA8C0003839E /* FUDemoManager.m in Sources */,
+				6B6AD45B2940AA0C0003839E /* AGMEAGLContext.m in Sources */,
+				6B6AD45C2940AA0C0003839E /* AGMCVPixelBuffer.m in Sources */,
 				6B6AD3B5293EFA8C0003839E /* FUFilterModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -805,6 +917,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AgoraDemo/FaceUnity/Lib",
+					"$(PROJECT_DIR)/AgoraDemo/AGMCapturer/AGMFramework",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraDemo/Info.plist;
@@ -846,6 +959,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AgoraDemo/FaceUnity/Lib",
+					"$(PROJECT_DIR)/AgoraDemo/AGMCapturer/AGMFramework",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AgoraDemo/Info.plist;

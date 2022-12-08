@@ -9,5 +9,7 @@
 #import "FUDemoManager.h"
 #import "VideoProcessingManager.h"
 #import "CapturerManager.h"
+#import "AGMCapturer.h"
+#import "AGMRenderer.h"
 
 #endif /* AppBridgingHeader_h */
