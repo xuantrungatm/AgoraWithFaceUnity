@@ -18,14 +18,15 @@ class ViewController: UIViewController {
     var publishButton: UIButton!
     var switchCameraButton: UIButton!
     
-    let channelName = "agora_42434"
-    let rtmpURL = "rtmp://entrypoint-app.evgcdn.net/live/f8477470"
+    let channelName = "agora_1460"
+    let rtmpURL = "rtmp://entrypoint-app.evgcdn.net/live/e582c568"
     
     var glVideoView: AGMEAGLVideoView!
     var videoFilter: FUManager!
     var capturerManager: CapturerManager!
     var processingManager: VideoProcessingManager!
     var agoraEngine: AgoraRtcEngineKit!
+    var encoderConfig: AgoraVideoEncoderConfiguration!
     
     var isJoined: Bool = false {
         didSet {
@@ -48,6 +49,7 @@ class ViewController: UIViewController {
     var unpublishing: Bool = false
     let MAX_RETRY_TIMES = 3
     var remoteUid: UInt?
+    var isCameraFront = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,13 +128,14 @@ class ViewController: UIViewController {
         
         // set up video encoding configs
         // https://docs.agora.io/en/3.x/video-calling/basic-features/video-profiles?platform=ios
-        let encoderConfig = AgoraVideoEncoderConfiguration(size: AgoraVideoDimension1280x720, frameRate: .fps30, bitrate: 3420, orientationMode: .fixedPortrait)
+        encoderConfig = AgoraVideoEncoderConfiguration(size: AgoraVideoDimension1280x720, frameRate: .fps30, bitrate: 3420, orientationMode: .fixedPortrait)
         encoderConfig.minFrameRate = 15
         encoderConfig.minBitrate = 1710
+        encoderConfig.mirrorMode = .enabled
         agoraEngine.setVideoEncoderConfiguration(encoderConfig)
        
-        setupLocalVideo()
-       // setupFaceUnity() // use camera capture
+       // setupLocalVideo()
+        setupFaceUnity() // use camera capture
         
         // Set audio route to speaker
         agoraEngine.setDefaultAudioRouteToSpeakerphone(true)
@@ -147,6 +150,7 @@ class ViewController: UIViewController {
         // the view to be binded
         videoCanvas.view = localView
         videoCanvas.renderMode = .hidden
+        videoCanvas.mirrorMode = .auto
         agoraEngine.setupLocalVideo(videoCanvas)
         agoraEngine.startPreview()
     }
@@ -182,8 +186,17 @@ class ViewController: UIViewController {
     }
     
     @objc func switchCamera(sender: UIButton!) {
-        capturerManager.switchCamera()
-       // FUManager.share().onCameraChange()
+        isCameraFront.toggle()
+        encoderConfig.mirrorMode = isCameraFront ? .enabled : .auto
+        agoraEngine.setVideoEncoderConfiguration(encoderConfig)
+        if let capturerManager = capturerManager {
+            glVideoView.mirror = isCameraFront
+            capturerManager.switchCamera()
+            FUManager.share().onCameraChange()
+        } else {
+            //videoCanvas.mirrorMode =
+            agoraEngine.switchCamera()
+        }
     }
     
     @objc func publish(sender: UIButton!) {
