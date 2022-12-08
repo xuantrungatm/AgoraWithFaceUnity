@@ -179,7 +179,7 @@ class ViewController: UIViewController {
         capturerManager.startCapture()
 
         glVideoView = AGMEAGLVideoView(frame: localView.frame)
-        glVideoView.renderMode = .adaptive
+        glVideoView.renderMode = .hidden
         glVideoView.mirror = true
         localView.addSubview(glVideoView)
         capturerManager.videoView = glVideoView
