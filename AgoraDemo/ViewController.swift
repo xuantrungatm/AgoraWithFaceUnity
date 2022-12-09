@@ -128,9 +128,8 @@ class ViewController: UIViewController {
         
         // set up video encoding configs
         // https://docs.agora.io/en/3.x/video-calling/basic-features/video-profiles?platform=ios
-        encoderConfig = AgoraVideoEncoderConfiguration(size: AgoraVideoDimension1280x720, frameRate: .fps30, bitrate: 3420, orientationMode: .fixedPortrait)
-        encoderConfig.minFrameRate = 15
-        encoderConfig.minBitrate = 1710
+        encoderConfig = AgoraVideoEncoderConfiguration(size: AgoraVideoDimension1280x720, frameRate: .fps30, bitrate: 2500, orientationMode: .fixedPortrait)
+        encoderConfig.minBitrate = 1200
         encoderConfig.mirrorMode = .enabled
         agoraEngine.setVideoEncoderConfiguration(encoderConfig)
        
@@ -211,6 +210,9 @@ class ViewController: UIViewController {
     
     func startRtmpStreaming(isTranscoding: Bool, rtmpURL: String) {
         if isTranscoding {
+            transcoding.videoCodecProfile = .high
+            transcoding.videoFramerate = 30
+            transcoding.videoBitrate = 2500
             transcoding.size = CGSize(width: 720, height: 1280)
             agoraEngine.startRtmpStream(withTranscoding: rtmpURL, transcoding: transcoding)
         }
