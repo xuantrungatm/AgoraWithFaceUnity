@@ -17,10 +17,17 @@ class ViewController: UIViewController {
     var joinButton: UIButton!
     var publishButton: UIButton!
     var switchCameraButton: UIButton!
+    var pkButton: UIButton!
+    var nameLabel: UILabel!
     
-    let channelName = "agora_1460"
-    let rtmpURL = "rtmp://entrypoint-app.evgcdn.net/live/e582c568"
+    // a ben
+//    let channelName = "test"
+//    let rtmpURL = "rtmp://entrypoint.evgcdn.net/live/f177bf9c"
     
+    // user 2
+    let channelName = "test1"
+    let rtmpURL = "rtmp://entrypoint.evgcdn.net/live/dee94df3"
+
     var glVideoView: AGMEAGLVideoView!
     var videoFilter: FUManager!
     var capturerManager: CapturerManager!
@@ -101,6 +108,25 @@ class ViewController: UIViewController {
         switchCameraButton.setTitle("Camera", for: .normal)
         switchCameraButton.addTarget(self, action: #selector(switchCamera), for: .touchUpInside)
         view.addSubview(switchCameraButton)
+        
+        pkButton = UIButton(type: .custom)
+        pkButton.frame = CGRect(x: UIScreen.main.bounds.width - 96, y: 50, width: 80, height: 40)
+        pkButton.layer.cornerRadius = 20
+        pkButton.clipsToBounds = true
+        pkButton.backgroundColor = .blue
+        pkButton.setTitleColor(.white, for: .normal)
+        pkButton.setTitle("PK", for: .normal)
+        pkButton.addTarget(self, action: #selector(pkAction), for: .touchUpInside)
+        view.addSubview(pkButton)
+        
+        remoteView = UIView(frame: CGRect(x: 16, y: 100, width: 150, height: 200))
+        remoteView.backgroundColor = .red
+        view.addSubview(remoteView)
+        
+        nameLabel = UILabel(frame: CGRect(x: UIScreen.main.bounds.width - 86, y: 100, width: 70, height: 40))
+        nameLabel.text = channelName == "test" ? "a ben" : "a ho"
+        nameLabel.textAlignment = .center
+        view.addSubview(nameLabel)
         
         isJoined = false
         isPublished = false
@@ -219,6 +245,30 @@ class ViewController: UIViewController {
         else{
             agoraEngine.startRtmpStreamWithoutTranscoding(rtmpURL)
         }
+    }
+    
+    @objc func pkAction(sender: UIButton!) {
+        let alertController = UIAlertController(title: "Join PK", message: "", preferredStyle: .alert)
+        alertController.addTextField() { textField -> Void in
+            textField.placeholder = "Channel name"
+        }
+
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            let textField = alertController.textFields![0] as UITextField
+            let pkChannel = textField.text ?? ""
+            let option = AgoraRtcChannelMediaOptions()
+            option.autoSubscribeAudio = true
+            option.autoSubscribeVideo = true
+            self.leaveChannel()
+            let result = self.agoraEngine.joinChannel(byToken: KeyCenter.Token, channelId: pkChannel, info: nil, uid: UserInfo.userId, options: option)
+           
+        }
+        let cancelAction = UIAlertAction(title: "Cannel", style: .cancel)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
     }
     
     @objc func joinAction(sender: UIButton!) {

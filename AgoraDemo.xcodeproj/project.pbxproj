@@ -315,17 +315,16 @@
 		6B6AD343293EFA8C0003839E /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				6B6AD621294344AA0003839E /* Test */,
 				6B6AD344293EFA8C0003839E /* ViewModel */,
-				6B6AD353293EFA8C0003839E /* FUTestRecorder.h */,
-				6B6AD354293EFA8C0003839E /* FUDemoManager.m */,
-				6B6AD355293EFA8C0003839E /* FUManager.h */,
 				6B6AD356293EFA8C0003839E /* Defines */,
-				6B6AD358293EFA8C0003839E /* FUTestRecorder.m */,
 				6B6AD359293EFA8C0003839E /* Model */,
 				6B6AD368293EFA8C0003839E /* View */,
-				6B6AD375293EFA8C0003839E /* FUDemoManager.h */,
 				6B6AD376293EFA8C0003839E /* Resource */,
+				6B6AD355293EFA8C0003839E /* FUManager.h */,
 				6B6AD393293EFA8C0003839E /* FUManager.m */,
+				6B6AD375293EFA8C0003839E /* FUDemoManager.h */,
+				6B6AD354293EFA8C0003839E /* FUDemoManager.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -551,6 +550,15 @@
 				6B6AD45A2940AA0C0003839E /* AGMCameraCapturer.h */,
 			);
 			path = AGMCapturer;
+			sourceTree = "<group>";
+		};
+		6B6AD621294344AA0003839E /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				6B6AD353293EFA8C0003839E /* FUTestRecorder.h */,
+				6B6AD358293EFA8C0003839E /* FUTestRecorder.m */,
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
