@@ -44,10 +44,11 @@ class NetworkManager {
         let params = ["appCertificate": KeyCenter.Certificate ?? "",
                       "appId": KeyCenter.AppId,
                       "channelName": channelName,
-                      "expire": 9000,
+                      "expire": 90000,
                       "src": "iOS",
                       "ts": "".timeStamp,
-//                      "type": 1,
+                      "type": 1,
+                      "role": 1,
                       "uid": "\(uid)"] as [String : Any]
         NetworkManager.shared.postRequest(urlString: "https://test-toolbox.bj2.agoralab.co/v1/token/generate", params: params, success: { response in
             let data = response["data"] as? [String: String]

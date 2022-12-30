@@ -8,6 +8,7 @@
 import AVFoundation
 import UIKit
 import AgoraRtcKit
+import AgoraReplayKitExtension
 
 class ViewController: UIViewController {
     
@@ -19,15 +20,16 @@ class ViewController: UIViewController {
     var switchCameraButton: UIButton!
     var pkButton: UIButton!
     var nameLabel: UILabel!
+    var copyButton: UIButton!
     
     // a ben
 //    let channelName = "test"
-//    let rtmpURL = "rtmp://entrypoint.evgcdn.net/live/f177bf9c"
+//    let rtmpURL = "rtmp://entrypoint-app.evgcdn.net/live/f177bf9c"
     
     // user 2
     let channelName = "test1"
-    let rtmpURL = "rtmp://entrypoint.evgcdn.net/live/dee94df3"
-
+    let rtmpURL = "rtmp://entrypoint-app.evgcdn.net/live/12aa5ffd"
+    
     var glVideoView: AGMEAGLVideoView!
     var videoFilter: FUManager!
     var capturerManager: CapturerManager!
@@ -72,6 +74,7 @@ class ViewController: UIViewController {
         agoraEngine.disableVideo()
         agoraEngine.disableAudio()
         agoraEngine.stopPreview()
+        agoraEngine.stopChannelMediaRelay()
         agoraEngine.setVideoSource(nil)
         leaveChannel()
         AgoraRtcEngineKit.destroy()
@@ -80,6 +83,9 @@ class ViewController: UIViewController {
     func initViews() {
         localView = UIView(frame: UIScreen.main.bounds)
         view.addSubview(localView)
+        
+        remoteView = UIView(frame: CGRect(x: UIScreen.main.bounds.width/2, y: 100, width: UIScreen.main.bounds.width/2, height: 320))
+        view.insertSubview(remoteView, belowSubview: localView)
         
         joinButton = UIButton(type: .custom)
         joinButton.frame = CGRect(x: 100, y: UIScreen.main.bounds.height - 100, width: 100, height: 50)
@@ -119,17 +125,28 @@ class ViewController: UIViewController {
         pkButton.addTarget(self, action: #selector(pkAction), for: .touchUpInside)
         view.addSubview(pkButton)
         
-        remoteView = UIView(frame: CGRect(x: 16, y: 100, width: 150, height: 200))
-        remoteView.backgroundColor = .red
-        view.addSubview(remoteView)
-        
         nameLabel = UILabel(frame: CGRect(x: UIScreen.main.bounds.width - 86, y: 100, width: 70, height: 40))
         nameLabel.text = channelName == "test" ? "a ben" : "a ho"
         nameLabel.textAlignment = .center
         view.addSubview(nameLabel)
         
+        copyButton = UIButton(type: .custom)
+        copyButton.frame = CGRect(x: UIScreen.main.bounds.width - 136, y: 160, width: 120, height: 40)
+        copyButton.layer.cornerRadius = 20
+        copyButton.clipsToBounds = true
+        copyButton.backgroundColor = .blue
+        copyButton.setTitleColor(.white, for: .normal)
+        copyButton.setTitle("Copy token", for: .normal)
+        copyButton.addTarget(self, action: #selector(copyToken), for: .touchUpInside)
+        view.addSubview(copyButton)
+        
         isJoined = false
         isPublished = false
+    }
+    
+    @objc
+    private func copyToken() {
+        UIPasteboard.general.string = KeyCenter.Token
     }
     
     func initializeAgoraEngine() {
@@ -151,7 +168,6 @@ class ViewController: UIViewController {
         // enable video module
         agoraEngine.enableVideo()
         agoraEngine.enableAudio()
-        
         // set up video encoding configs
         // https://docs.agora.io/en/3.x/video-calling/basic-features/video-profiles?platform=ios
         encoderConfig = AgoraVideoEncoderConfiguration(size: AgoraVideoDimension1280x720, frameRate: .fps30, bitrate: 2500, orientationMode: .fixedPortrait)
@@ -229,6 +245,7 @@ class ViewController: UIViewController {
             // stop rtmp streaming
             unpublishing = true
             agoraEngine.stopRtmpStream(rtmpURL)
+            agoraEngine.stopChannelMediaRelay()
         } else {
             startRtmpStreaming(isTranscoding: true, rtmpURL: rtmpURL)
         }
@@ -252,16 +269,11 @@ class ViewController: UIViewController {
         alertController.addTextField() { textField -> Void in
             textField.placeholder = "Channel name"
         }
-
+        
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             let textField = alertController.textFields![0] as UITextField
             let pkChannel = textField.text ?? ""
-            let option = AgoraRtcChannelMediaOptions()
-            option.autoSubscribeAudio = true
-            option.autoSubscribeVideo = true
-            self.leaveChannel()
-            let result = self.agoraEngine.joinChannel(byToken: KeyCenter.Token, channelId: pkChannel, info: nil, uid: UserInfo.userId, options: option)
-           
+            self.startPKByChannelMediaRelay(destinationName: pkChannel)
         }
         let cancelAction = UIAlertAction(title: "Cannel", style: .cancel)
         
@@ -269,6 +281,20 @@ class ViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true)
+    }
+    
+    private func startPKByChannelMediaRelay(destinationName: String) {
+        // configure source info, channel name defaults to current, and uid defaults to local
+        let config = AgoraChannelMediaRelayConfiguration()
+        let sourceInfo = AgoraChannelMediaRelayInfo(token: "00690e14a940e56495bbc87423395be503cIAAs7ME0u5eEwJDbhESK42jq1KBj2GjU7DVk8/fMhJDPReLcsooAAAAAIgCDGwMAQ/KvYwQAAQBjLa9jAgBjLa9jAwBjLa9jBABjLa9j")
+        sourceInfo.uid = 0
+        config.sourceInfo = sourceInfo
+        
+        // configure target channel info
+        let destinationInfo = AgoraChannelMediaRelayInfo(token: "00690e14a940e56495bbc87423395be503cIABSCiRZqi9ZJFog/DK7ohpqwypr9hH1PwfPaGu4rUJicgx+f9gAAAAAIgDM5I8ENPKvYwQAAQBULa9jAgBULa9jAwBULa9jBABULa9j")
+        destinationInfo.uid = 0
+        config.setDestinationInfo(destinationInfo, forChannelName: destinationName)
+        agoraEngine.startChannelMediaRelay(config)
     }
     
     @objc func joinAction(sender: UIButton!) {
@@ -283,15 +309,15 @@ class ViewController: UIViewController {
         let option = AgoraRtcChannelMediaOptions()
         option.autoSubscribeAudio = true
         option.autoSubscribeVideo = true
-        let result = agoraEngine.joinChannel(byToken: KeyCenter.Token, channelId: channelName, info: nil, uid: UserInfo.userId, options: option)
-        if result == 0 {
-            isJoined = true
-            showMessage(title: "Success", text: "Successfully joined the channel")
-        }
+        option.publishLocalAudio = true
+        option.publishLocalVideo = true
+        agoraEngine.joinChannel(byToken: "00690e14a940e56495bbc87423395be503cIAAs7ME0u5eEwJDbhESK42jq1KBj2GjU7DVk8/fMhJDPReLcsooAAAAAIgCDGwMAQ/KvYwQAAQBjLa9jAgBjLa9jAwBjLa9jBABjLa9j", channelId: channelName, info: nil, uid: 0, options: option)
+        
     }
     
     func leaveChannel() {
         let result = agoraEngine.leaveChannel(nil)
+        agoraEngine.stopChannelMediaRelay()
         if (result == 0) { isJoined = false }
     }
     
@@ -304,7 +330,7 @@ class ViewController: UIViewController {
         default:
             hasPermissions = requestCameraAccess()
         }
-       
+        
         if !hasPermissions {
             return false
         }
@@ -358,13 +384,17 @@ extension ViewController: AgoraRtcEngineDelegate {
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurError errorCode: AgoraErrorCode) {
-        
+        showMessage(title: "Failed", text: "\(errorCode)")
     }
     
     /// callback when a remote user is joinning the channel, note audience in live broadcast mode will NOT trigger this event
     /// @param uid uid of remote joined user
     /// @param elapsed time elapse since current sdk instance join the channel in ms
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
+        
+        localView.frame = CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width/2, height: 320)
+        glVideoView.frame = localView.bounds
+        
         let videoCanvas = AgoraRtcVideoCanvas()
         videoCanvas.uid = uid
         videoCanvas.renderMode = .hidden
@@ -378,16 +408,18 @@ extension ViewController: AgoraRtcEngineDelegate {
         remoteUid = uid
         
         // check whether we have enabled transcoding
-        let transcodingEnabled = true
-        if(transcodingEnabled){
-            // add new user onto the canvas
-            let user = AgoraLiveTranscodingUser()
-            user.rect = CGRect(origin: .zero, size: AgoraVideoDimension1280x720)
-            user.uid = uid
-            self.transcoding.add(user)
-            // remember you need to call setLiveTranscoding again if you changed the layout
-            agoraEngine.updateRtmpTranscoding(transcoding)
-        }
+        // add new user onto the canvas
+        let user = AgoraLiveTranscodingUser()
+        user.rect = CGRect(x: 720, y: 0, width: 720, height: 1280)
+        user.uid = uid
+        user.zOrder = 1
+        transcoding.add(user)
+        
+        transcoding.videoFramerate = 30
+        transcoding.videoBitrate = 2500
+        transcoding.size = CGSize(width: 720 * 2, height: 1280)
+        
+        agoraEngine.updateRtmpTranscoding(transcoding)
     }
     
     /// callback when the local user joins a specified channel.
@@ -395,13 +427,16 @@ extension ViewController: AgoraRtcEngineDelegate {
     /// @param uid uid of local user
     /// @param elapsed time elapse since current sdk instance join the channel in ms
     func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
+        
         isJoined = true
+        showMessage(title: "Success", text: "Successfully joined the channel")
         
         // add transcoding user so the video stream will be involved
         // in future RTMP Stream
         let user = AgoraLiveTranscodingUser()
         user.rect = CGRect(origin: .zero, size: CGSize(width: 720, height: 1280))
         user.uid = uid
+        user.zOrder = 1
         transcoding.add(user)
     }
     
@@ -410,27 +445,23 @@ extension ViewController: AgoraRtcEngineDelegate {
     /// @param reason reason why this user left, note this event may be triggered when the remote user
     /// become an audience in live broadcasting profile
     func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
-        // to unlink your view from sdk, so that your view reference will be released
-        // note the video will stay at its last frame, to completely remove it
-        // you will need to remove the EAGL sublayer from your binded view
         let videoCanvas = AgoraRtcVideoCanvas()
         videoCanvas.uid = uid
-        // the view to be binded
         videoCanvas.view = nil
         videoCanvas.renderMode = .hidden
         agoraEngine.setupRemoteVideo(videoCanvas)
         
-        // check whether we have enabled transcoding
-        let transcodingEnabled = true
-        if(transcodingEnabled){
-            // remove user from canvas if current cohost left channel
-            if let existingUid = remoteUid {
-                transcoding.removeUser(existingUid)
-            }
-            remoteUid = nil
-            // remember you need to call setLiveTranscoding again if you changed the layout
-            agoraEngine.updateRtmpTranscoding(transcoding)
+        // remove user from canvas if current cohost left channel
+        if let existingUid = remoteUid {
+            transcoding.removeUser(existingUid)
         }
+        remoteUid = nil
+        
+        transcoding.size = CGSize(width: 720, height: 1280)
+        agoraEngine.updateRtmpTranscoding(transcoding)
+        
+        localView.frame = UIScreen.main.bounds
+        glVideoView.frame = localView.bounds
     }
     
     /// callback for state of rtmp streaming, for both good and bad state
@@ -447,16 +478,7 @@ extension ViewController: AgoraRtcEngineDelegate {
         } else if state == .failure {
             agoraEngine.stopRtmpStream(rtmpURL)
             isPublished = false
-            if errorCode == .streamingErrorCodeInternalServerError
-                || errorCode == .streamingErrorCodeStreamNotFound
-                || errorCode == .streamPublishErrorNetDown
-                || errorCode == .streamingErrorCodeRtmpServerError
-                || errorCode == .streamingErrorCodeConnectionTimeout {
-                showMessage(title: "Error", text: "RTMP Publish Failed: \(errorCode.rawValue)")
-            }
-            else{
-                unpublishing = true
-            }
+            showMessage(title: "Error", text: "RTMP Publish Failed: \(errorCode.rawValue)")
         } else if state == .idle {
             if unpublishing {
                 unpublishing = false
@@ -481,8 +503,38 @@ extension ViewController: AgoraRtcEngineDelegate {
         }
     }
     
-    /// callback when live transcoding is properly updated
-    func rtcEngineTranscodingUpdated(_ engine: AgoraRtcEngineKit) {
-        
+    /// callback when a media relay process state changed
+    /// @param state state of media relay
+    /// @param error error details if media relay reaches failure state
+    func rtcEngine(_ engine: AgoraRtcEngineKit, channelMediaRelayStateDidChange state: AgoraChannelMediaRelayState, error: AgoraChannelMediaRelayError) {
+        print("channelMediaRelayStateDidChange: \(state.rawValue) error \(error.rawValue)")
+        switch(state){
+        case .running:
+            localView.frame = CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width/2, height: 320)
+            glVideoView.frame = localView.bounds
+        case .failure:
+            showMessage(title: "Fail", text: "Media Relay Failed: \(error.rawValue)")
+        case .idle:
+            break
+        default:
+            break
+        }
+    }
+    
+    /// callback when a media relay event received
+    /// @param event  event of media relay
+    func rtcEngine(_ engine: AgoraRtcEngineKit, didReceive event: AgoraChannelMediaRelayEvent) {
+        switch event {
+        case .disconnect:
+            showMessage(title: "Channel Media Relay Event", text: "User disconnected from the server due to a poor network connection.")
+        case .connected:
+            showMessage(title: "Channel Media Relay Event", text: "Network reconnected")
+        case .joinedSourceChannel:
+            showMessage(title: "Channel Media Relay Event", text: "User joined the source channel")
+        case .joinedDestinationChannel:
+            showMessage(title: "Channel Media Relay Event", text: "User joined the destination channel")
+        default:
+            break
+        }
     }
 }
